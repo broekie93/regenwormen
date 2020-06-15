@@ -4,12 +4,12 @@ def throwdice():
 	dice = random.choice(options)
 	return dice
 
-def multithrow(numberofdices):
-	throwndices = []
-	for i in range(numberofdices):
-		dice = throwdice()
-		throwndices.append(dice)
-	return throwndices
+def multithrow(numberofdice):
+	throwndice = []
+	for i in range(numberofdice):
+		die = throwdice()
+		throwndice.append(die)
+	return throwndice
 
 def countpoints(list):
 	totalpoints = 0
@@ -20,11 +20,11 @@ def countpoints(list):
 			totalpoints += eval(item)
 	return totalpoints
 
-def eindscore(score,totalchosendices):
+def eindscore(score,totalchosendice):
 	if score < 21:
 		print("Uw score is te laag, u bent af.")
 		return 0
-	if "r" not in totalchosendices:
+	if "r" not in totalchosendice:
 		print("U heeft geen regenworm gegooid, u bent af.")
 		return 0
 	else:
@@ -46,107 +46,107 @@ def gameover(table, playerdict, player):
 
 ###################################################################################
 
-def onego(numberofdices,totalchosendices):
-	chosendices = []
-	throwndices = multithrow(numberofdices)
-	print("U heeft dit gegooid: ", throwndices)
+def onego(numberofdice,totalchosendice):
+	chosendice = []
+	throwndice = multithrow(numberofdice)
+	print("U heeft dit gegooid: ", throwndice)
 	gameover = 1
-	for d in throwndices:
-		if d not in totalchosendices:
+	for d in throwndice:
+		if d not in totalchosendice:
 			gameover = 0
 	if gameover == 0:
 		mychoice = input("Voer in welke dobbelstenenwaarde u wilt bewaren? (enter om te stoppen)")
-		while mychoice not in throwndices or mychoice in totalchosendices:
-			if mychoice not in throwndices:
+		while mychoice not in throwndice or mychoice in totalchosendice:
+			if mychoice not in throwndice:
 				print("U heeft geen", mychoice, " gegooid\n")
-			if mychoice in totalchosendices:
+			if mychoice in totalchosendice:
 				print("U heeft al", mychoice, " gekozen\n")
 			mychoice = input("Voer in welke dobbelstenenwaarde u wilt bewaren? (enter om te stoppen)")
 		else:
-			for dice in throwndices:
-				if dice == mychoice:
-					chosendices.append(dice)
+			for die in throwndice:
+				if die == mychoice:
+					chosendice.append(die)
 	else:
 		print("U kunt geen dobbelsteen meer kiezen, u bent af.")
 		return "gameover"
-	return chosendices
+	return chosendice
 
-def playturn(score,dicesleft,totalchosendices):
-	chosendices = onego(dicesleft, totalchosendices)
-	if chosendices == "gameover":
+def playturn(score,diceleft,totalchosendice):
+	chosendice = onego(diceleft, totalchosendice)
+	if chosendice == "gameover":
 		return "gameover"
 	else:
-		score += countpoints(chosendices)
-		dicesleft = dicesleft - len(chosendices)
-		totalchosendices += chosendices
-		print("U heeft dit gekozen: ", totalchosendices)
+		score += countpoints(chosendice)
+		diceleft = diceleft - len(chosendice)
+		totalchosendice += chosendice
+		print("U heeft dit gekozen: ", totalchosendice)
 		print("Uw score is ", score, "\n")
-		return (score, dicesleft, totalchosendices)
+		return (score, diceleft, totalchosendice)
 
 def completeturn(table,playerdict,player):
 	#start
 	score = 0
-	dicesleft = 8
-	totalchosendices = []
-	chosendices = "-"
-	available_opponent_dices = []
+	diceleft = 8
+	totalchosendice = []
+	chosendice = "-"
+	available_opponent_dice = []
 	for opponent in playerdict:
 		if player != opponent:
 			try:
-				available_opponent_dices.append(playerdict[opponent][-1])
+				available_opponent_dice.append(playerdict[opponent][-1])
 			except:
 				pass
 
-	if dicesleft == 0:
+	if diceleft == 0:
 		if score < 21:
 			print("Uw score is te laag en u heeft geen dobbelstenen over, u bent af.")
 			(table, playerdict, player) = gameover(table,playerdict,player)
 		elif score > 34:
 			print("Uw score is te hoog, u bent af.")
 			(table, playerdict, player) = gameover(table, playerdict, player)
-		elif "r" not in totalchosendices:
+		elif "r" not in totalchosendice:
 			print("U heeft geen regenworm gegooid en u heeft geen dobbelstenen over, u bent af.")
 			(table, playerdict, player) = gameover(table, playerdict, player)
 
-		elif score not in table and score not in available_opponent_dices:
+		elif score not in table and score not in available_opponent_dice:
 			print("De gekozen tegel is niet beschikbaar, u bent af.")
 			(table, playerdict, player) = gameover(table, playerdict, player)
 
 		else:
 			pass
 
-	while dicesleft != 0:
-		if len(chosendices) == 0:
+	while diceleft != 0:
+		if len(chosendice) == 0:
 			print("Uw score is ", score, "\n")
-		if chosendices != "":
-			if score > 20 and "r" in totalchosendices and score in available_opponent_dices+table:
+		if chosendice != "":
+			if score > 20 and "r" in totalchosendice and score in available_opponent_dice+table:
 				play = "-"
 				while play[0].lower() not in "jn":
 					play = input("wilt u stoppen? (j/n)")
 				if play[0].lower() == "n":
 					try:
-						(score, dicesleft, totalchosendices) = playturn(score,dicesleft,totalchosendices)
+						(score, diceleft, totalchosendice) = playturn(score,diceleft,totalchosendice)
 					except:
-						dicesleft = 0
+						diceleft = 0
 				else:
-					dicesleft = 0
+					diceleft = 0
 			else:
-				if len(totalchosendices) != 0:
+				if len(totalchosendice) != 0:
 					print("U moet doorspelen")
 				try:
-					(score, dicesleft, totalchosendices) = playturn(score,dicesleft, totalchosendices)
+					(score, diceleft, totalchosendice) = playturn(score,diceleft, totalchosendice)
 				except:
-					dicesleft = 0
+					diceleft = 0
 
-	if eindscore(score,totalchosendices) == 0:
+	if eindscore(score,totalchosendice) == 0:
 		(table, playerdict, player) = gameover(table,playerdict,player)
 	else:
-		if eindscore(score,totalchosendices) in table:
+		if eindscore(score,totalchosendice) in table:
 			table.remove(score)
 			playerdict[player].append(score)
-		elif eindscore(score, totalchosendices) in available_opponent_dices:
+		elif eindscore(score, totalchosendice) in available_opponent_dice:
 			for opponent in playerdict:
-				if opponent != player and eindscore(score, totalchosendices) == playerdict[opponent][-1]:
+				if opponent != player and eindscore(score, totalchosendice) == playerdict[opponent][-1]:
 					playerdict[player].append(score)
 					print(score, " toegevoegd aan stapel van", player)
 					playerdict[opponent].remove(score)
