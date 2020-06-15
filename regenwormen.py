@@ -175,7 +175,7 @@ def masked(list):
 def main():
 	playerdict = {}
 	table = [21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36]
-	#table = [21,22,23,24]
+	#table = [21,24,27]
 	name = "-"
 	while name != "":
 		name = input("Voer de namen in van de mensen die meedoen. ")
@@ -202,7 +202,7 @@ def main():
 				print(winnaar, " heeft gewonnen!!!")
 				
 				for player in playerdict:
-					print(player,": ", countscore(playerdict[player]), "punten")
+					print(player,": ",playerdict[player], countscore(playerdict[player]), "punten")
 				break
 
 main()
